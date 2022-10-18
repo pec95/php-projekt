@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <title>Unos vijesti</title>
+</head>
+<body>
+<div class="page-wrapper">
+    <header>
+        <nav>
+            <a href="index.php"><img class="logo" src="img/logo.png" /></a>
+            <br /><br >
+            <ul>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="kategorija.php?id=politika">Politik</a></li>
+                <li><a href="kategorija.php?id=zdravlje">Gesundheit</a></li>  
+                <li><a href='administracija.php'>Administracija</a></li>
+                <li><a href='unos.html'>Unos vijesti</a></li>
+                <li class="odjava"><a href='odjava.php'>Odjava</a></li>              
+            </ul>   
+        </nav>
+    </header>
+
+    <form id="unos" enctype="multipart/form-data" method="POST" action="unos.php">
+        <input type="hidden" name="id">
+        
+        <label>Naslov vijesti</label><br />
+        <input type="text" name="naslov" id="naslov" /><br />
+        <span id="porukaNaslov" class="greska"></span><br />
+
+        <label>Kratki sadržaj vijesti</label><br />
+        <textarea cols="30" rows="6" name="opis" id="opis"></textarea><br />
+        <span id="porukaOpis" class="greska"></span><br />
+
+        <label>Sadržaj vijesti</label><br />
+        <textarea cols="30" rows="10" name="vijest" id="vijest"></textarea><br />
+        <span id="porukaVijest" class="greska"></span><br />
+
+        <label>Kategorija</label><br />
+        <select name="kategorija" id="kategorija">
+            <option disabled selected>Odabir kategorije</option>
+            <option value="Politik">Politik</option>
+            <option value="Gesundheit">Gesundheit</option>
+        </select><br />
+        <span id="porukaKategorija" class="greska"></span><br />
+        
+        <label>Slika:</label><br />
+        <input type='file' accept='image/jpg' name='slika' id='slika' /><br />
+        
+        <span id="porukaSlika" class="greska"></span><br />
+
+        <label>Arhivirati:</label><br />
+        <input type="checkbox" name="arhiva" /><br /><br />
+
+        <input type="submit" id="predaj" value="Pošalji" />
+        <input type="reset" value="Poništi" />
+    </form>
+
+    <footer>
+        <p id="podnozje">stern.de GmbH | Unos vijesti</p>
+    </footer>
+
+    <script type="text/javascript">
+        document.getElementById("predaj").onclick = function(event) {
+            var predaj = true;
+
+            var naslovPolje = document.getElementById("naslov");
+            var naslov = document.getElementById("naslov").value;
+            naslovPolje.style.border = "1px solid black";
+            document.getElementById("porukaNaslov").innerHTML = "";
+            if(naslov.length < 5 || naslov.length > 30) {
+                predaj = false;
+                naslovPolje.style.border = "2px solid #ED1C24";
+                document.getElementById("porukaNaslov").innerHTML = "Naslov vijesti mora imati između 5 i 30 znakova!<br />";
+            }
+
+            var opisPolje = document.getElementById("opis");
+            var opis = document.getElementById("opis").value;
+            opisPolje.style.border = "1px solid black";
+            document.getElementById("porukaOpis").innerHTML = "";
+            if(opis.length < 10 || opis.length > 100) {
+                predaj = false;
+                opisPolje.style.border = "2px solid #ED1C24";
+                document.getElementById("porukaOpis").innerHTML = "Kratki sadržaj vijesti mora imati između 10 i 100 znakova!<br />";
+            }
+            
+            var vijestPolje = document.getElementById("vijest");
+            var vijest = document.getElementById("vijest").value; 
+            vijestPolje.style.border="1px solid black";
+            document.getElementById("porukaVijest").innerHTML = "";
+            if (vijest.length == 0) { 
+                predaj = false; 
+                vijestPolje.style.border="2px solid #ED1C24";
+                document.getElementById("porukaVijest").innerHTML = "Vijest mora biti unesena!<br />";
+            }
+        
+            var slikaPolje = document.getElementById("slika");
+            var slika = document.getElementById("slika").value; 
+            document.getElementById("porukaSlika").innerHTML = "";
+            if (slika.length == 0) { 
+                predaj = false;
+                document.getElementById("porukaSlika").innerHTML = "Slika mora biti unesena!<br />";
+            }
+            
+            var kategorijaPolje = document.getElementById("kategorija");
+            var kategorija = document.getElementById("kategorija").value;
+            document.getElementById("porukaKategorija").innerHTML = "";
+            if (kategorijaPolje.selectedIndex == 0) { 
+                predaj = false;
+                document.getElementById("porukaKategorija").innerHTML = "Kategorija mora biti odabrana!<br />";
+            }
+
+            if(predaj == false) {
+                event.preventDefault();
+            }
+        }
+    </script>
+</div>
+</body>
+</html>
